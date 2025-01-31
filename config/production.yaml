@@ -1,0 +1,5 @@
+mysql:
+  host: 'production_host'
+  user: 'production_user'
+  password: 'production_password'
+  database: 'dictionary'
