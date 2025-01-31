@@ -8,8 +8,9 @@ const db = new Database('dictionary.db');
 db.exec(`
   CREATE TABLE IF NOT EXISTS words (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    word TEXT NOT NULL UNIQUE
-  );
+    word TEXT NOT NULL,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+  )
 `);
 
 console.log('Database setup complete.');

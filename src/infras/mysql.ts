@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise';
 import config from '../config/config';
+import autoMigrate from './autoMigrate';
 
 const { host, user, password, database } = config.mysql;
 
