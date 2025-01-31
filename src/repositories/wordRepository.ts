@@ -21,12 +21,17 @@ export const wordRepository: WordRepository = {
 
   async searchWordsByPrefix(prefix: string): Promise<Word[]> {
     try {
-      const [rows] = await db.query(
-        'SELECT word FROM words WHERE word LIKE ?',
-        [`${prefix}%`]
+      const data = await db.query('SELECT * FROM words WHERE word LIKE ?', [
+        `${prefix}%`,
+      ]);
+      const [rows] = data;
+      return (rows as { id: number; word: string; created_at: string }[]).map(
+        (row) => ({
+          id: row.id,
+          word: row.word,
+          created_at: Math.floor(new Date(row.created_at).getTime() / 1000),
+        })
       );
-
-      return (rows as { word: string }[]).map((row) => ({ word: row.word }));
     } catch (error) {
       console.error('Error searching words by prefix:', error);
       return [];

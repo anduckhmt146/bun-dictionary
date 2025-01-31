@@ -1,4 +1,5 @@
 import { wordService } from '../services/wordService';
+import { ErrorResponse, SuccessResponse } from '../utils/response';
 
 export interface WordHandler {
   handleAddWord(req: Request): Promise<Response>;
@@ -10,25 +11,20 @@ export const wordHandler: WordHandler = {
     try {
       const { word } = await req.json();
       if (!word) {
-        return new Response('Word is required.', { status: 400 });
+        return ErrorResponse(400, 'Word is required.');
       }
 
       const result = await wordService.insertWord(word);
 
       if ('error' in result) {
-        return new Response(JSON.stringify(result), {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' },
-        });
+        console.error('Error adding word:', result.error);
+        return ErrorResponse(500, 'Internal Server Error in add word');
+      } else {
+        return SuccessResponse(200, result);
       }
-
-      return new Response(JSON.stringify(result), {
-        status: 201,
-        headers: { 'Content-Type': 'application/json' },
-      });
     } catch (error) {
       console.error('Error adding word:', error);
-      return new Response('Failed to add word.', { status: 500 });
+      return ErrorResponse(500, 'Internal Server Error in add word');
     }
   },
 
@@ -37,20 +33,15 @@ export const wordHandler: WordHandler = {
     const searchTerm = url.searchParams.get('search') || '';
 
     if (!searchTerm) {
-      return new Response('Search query parameter is required.', {
-        status: 400,
-      });
+      return ErrorResponse(400, 'Search term is required.');
     }
 
     try {
       const words = await wordService.searchWordsByPrefix(searchTerm);
-      return new Response(JSON.stringify(words), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return SuccessResponse(200, words);
     } catch (error) {
       console.error('Error searching words:', error);
-      return new Response('Failed to search words.', { status: 500 });
+      return ErrorResponse(500, 'Internal Server Error in search words');
     }
   },
 };

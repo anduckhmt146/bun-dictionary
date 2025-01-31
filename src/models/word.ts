@@ -1,4 +1,5 @@
 export interface Word {
-  id?: number;
+  id: number;
   word: string;
+  created_at: number;
 }

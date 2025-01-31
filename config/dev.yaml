@@ -1,5 +1,8 @@
+service:
+  http_port: 8080
+
 mysql:
-  host: 'localhost'
-  user: 'root'
-  password: ''
+  host: 'dev_host'
+  user: 'dev_user'
+  password: 'dev_password'
   database: 'dictionary'

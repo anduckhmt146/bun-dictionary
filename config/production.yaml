@@ -1,3 +1,6 @@
+service:
+  http_port: 8080
+
 mysql:
   host: 'production_host'
   user: 'production_user'
