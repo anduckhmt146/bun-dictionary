@@ -1,5 +1,5 @@
 mysql:
   host: 'localhost'
   user: 'root'
-  password: 'Tinhban123#'
+  password: ''
   database: 'dictionary'
